@@ -1,0 +1,245 @@
+package com.mirroredlineprops.alex.rebelliondice;
+
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by AJ on 10/19/2014.
+ */
+public class OddsAnalysis {
+
+    Map<String, int[][]> possibleDice;
+    int[][] green = {{0,0,0,0},{1,0,0,0},{1,0,0,0},{2,0,0,0},
+            {0,1,0,0},{0,1,0,0},{1,1,0,0},{0,2,0,0}};
+    Integer[][] green1 = {{0,0,0,0},{1,0,0,0},{1,0,0,0},{2,0,0,0},
+            {0,1,0,0},{0,1,0,0},{1,1,0,0},{0,2,0,0}};
+    int[][] yellow = {{0,0,0,0},{1,0,0,0},{1,0,0,0},{2,0,0,0},
+            {2,0,0,0},{0,1,0,0},{1,1,0,0},{1,1,0,0},
+            {1,1,0,0},{0,2,0,0},{0,2,0,0},{0,0,1,0}};
+    int[][] purple = {{0,0,0,0},{-1,0,0,0},{0,-2,0,0},{0,-1,0,0},
+            {0,-1,0,0},{0,-1,0,0},{0,-2,0,0},{-1,-1,0,0}};
+    Integer[][] purple1 = {{0,0,0,0},{-1,0,0,0},{0,-2,0,0},{0,-1,0,0},
+            {0,-1,0,0},{0,-1,0,0},{0,-2,0,0},{-1,-1,0,0}};
+    int[][] red = {{0,0,0,0},{-1,0,0,0},{-1,0,0,0},{-2,0,0,0},
+            {-2,0,0,0},{0,-1,0,0},{0,-1,0,0},{-1,-1,0,0},
+            {-1,-1,0,0},{0,-2,0,0},{0,-2,0,0},{0,0,0,1}};
+    int[][] white = {{0,0,0,0},{0,0,0,0},{1,0,0,0},
+            {1,1,0,0},{0,2,0,0},{0,1,0,0}};
+    int[][] black = {{0,0,0,0},{0,0,0,0},{-1,0,0,0},
+            {-1,0,0,0},{0,-1,0,0},{0,-1,0,0}};
+    /*
+    int[][] force = {{1,0},{1,0},{1,0},{1,0},
+            {1,0},{1,0},{2,0},{0,1},
+            {0,1},{0,2},{0,2},{0,2}};
+    int[][] test1 = {{1,0,0,0},{0,1,0,0}};
+    int[][] test2 = {{0,0,1,0},{0,0,0,1}};
+    */
+
+    private int[] matrixAdd(int[] list1, int[] list2) {
+        if (list1.length == 0){
+            return list2;
+        }
+        int[] total = {0,0,0,0};
+        for (int i=0; i< list1.length; i++) {
+            total[i] = list1[i] + list2[i];
+        }
+        return total;
+    }
+
+    private List<Integer> matrixAdd(List<Integer> list1, List<Integer> list2) {
+        if (list2.size() == 0){
+            return list1;
+        }
+        List<Integer> total = new ArrayList<Integer>(Arrays.asList(0,0,0,0));
+
+        for (int i=0; i< list1.size(); i++) {
+            Integer j = list1.get(i) + list2.get(i);
+            total.set(i, j);
+        }
+        return total;
+    }
+
+    private Map<String, Integer> enumerateCombinations(List<int[][]> dicePool, int[] resultsSoFar, Map<String, Integer> totalList){
+        if (dicePool.size() == 1) {
+            for (int[] side:dicePool.get(0)) {
+                String resStr = Arrays.toString(matrixAdd(resultsSoFar, side)).replace("[", "").replace("]","");
+                if (!totalList.containsKey(resStr)) {
+                    totalList.put(resStr, 1);
+                }
+                else {
+                    totalList.put( resStr, totalList.get(resStr) + 1 );
+                }
+            }
+            return totalList;
+        }
+
+        for (int[] side:dicePool.get(0)) {
+            totalList.putAll(enumerateCombinations(dicePool.subList(1, dicePool.size()), matrixAdd(side, resultsSoFar), totalList));
+        }
+        return totalList;
+    }
+
+    private Map<List<Integer>, Integer> enumCombinations(List<Integer[][]> dicePool){
+        Map<List<Integer>, Integer> combinations = new HashMap<List<Integer>, Integer>();
+        for (Integer[][] die: dicePool){
+            combinations = addDieToMap(die, combinations);
+        }
+        return combinations;
+    }
+
+    private Map<List<Integer>, Integer> addDieToMap(Integer[][] die, Map<List<Integer>, Integer> combinations){
+        if (combinations.size() == 0){
+            for (Integer[] side:die){
+                combinations.put(new ArrayList(Arrays.asList(side)) , 1);
+            }
+        }
+        else {
+            Map<List<Integer>, Integer> tempMap = new HashMap<List<Integer>, Integer>();
+
+            for (Integer[] side: die) {
+                for (List<Integer> combo: combinations.keySet()){
+                    int totalHits = 1 + combinations.get(combo);
+                    List<Integer> matrix = matrixAdd(new ArrayList(Arrays.asList(side)), combo);
+                    if (tempMap.containsKey(matrix)){
+                        totalHits += tempMap.get(matrix);
+                    }
+                    tempMap.put(matrix, totalHits);
+                }
+            }
+            return tempMap;
+        }
+        return combinations;
+    }
+
+    private String outcomeString(String result) {
+        String resultArray[] = result.split(",");
+        String outcome = "";
+        int success = Integer.parseInt(resultArray[0].trim()) + Integer.parseInt(resultArray[2].trim()) - Integer.parseInt(resultArray[3].trim());
+        int advantage = Integer.parseInt(resultArray[1].trim());
+        int triumph = Integer.parseInt(resultArray[2].trim());
+        int despair = Integer.parseInt(resultArray[3].trim());
+        if (success > 0) {
+            outcome += "Success";
+        }
+        else {
+            outcome += "Failure";
+        }
+        if (advantage > 1) {
+            outcome += " with 2+ Advantage";
+        }
+        else if (advantage==1) {
+            outcome += " with 1 Advantage";
+        }
+        else if (advantage==-1) {
+            outcome += " with 1 Threat";
+        }
+        else if (advantage<-1) {
+            outcome += " with 2+ Threat";
+        }
+        if (triumph > 0) {
+            outcome += " with " + triumph + " Triumph";
+        }
+        if (despair > 0) {
+            outcome += " with " + despair + " Despair";
+        }
+        return outcome;
+    }
+
+    private Map<String, Integer> calculateSuccessRate(Map<String, Integer> totalList, int numResults) {
+        Map<String, Integer> outcomeMap = new HashMap<String, Integer>();
+        outcomeMap.put("Total Success", 0);
+        outcomeMap.put("Total Failure", 0);
+
+        for (String result: totalList.keySet()) {
+            String outStr = outcomeString(result);
+            if (outStr.startsWith("Success")) {
+                outcomeMap.put("Total Success", outcomeMap.get("Total Success") + totalList.get(result));
+            }
+            else {
+                outcomeMap.put("Total Failure", outcomeMap.get("Total Failure") + totalList.get(result));
+            }
+            if (!outcomeMap.containsKey(outStr)){
+                outcomeMap.put(outStr, totalList.get(result));
+            }
+            else {
+                outcomeMap.put(outStr, outcomeMap.get(outStr) + totalList.get(result) );
+            }
+        }
+
+        return outcomeMap;
+    }
+
+    public String runOdds(String diceToAnalyze){
+        String retStr = "";
+        Map<String, Integer> totalList = new HashMap<String, Integer>();
+
+        List<int[][]> dicePool = new ArrayList<int[][]>();
+        for (String die:diceToAnalyze.split(", ")){
+            if (possibleDice.containsKey(die.toLowerCase())){
+                dicePool.add(possibleDice.get(die.toLowerCase()));
+            }
+            else {
+                Log.e("E", "Cannot find die " + die);
+            }
+        }
+        if(dicePool.size() == 0){
+            return "No dice selected";
+        }
+        //int[][][] dicePool = {possibleDice.get("green"), possibleDice.get("green"), possibleDice.get("purple")};
+        int [] resultsSoFar = {0,0,0,0};
+        totalList = enumerateCombinations(dicePool, resultsSoFar, totalList);
+        Map<List<Integer>, Integer> tList = new HashMap<List<Integer>, Integer>();
+        List<Integer[][]> dPool = new ArrayList<Integer[][]>();
+        dPool.add(green1);
+        dPool.add(purple1);
+        tList = enumCombinations(dPool);
+        for (List<Integer> entry:tList.keySet()){
+            Log.d("E", entry.toString() + " " + tList.get(entry));
+        }
+
+        int numResults = 0;
+        for(Integer each:totalList.values()) {
+            numResults += each;
+        }
+        retStr += numResults + " possible combinations" + "\n";
+        //Log.d("D", numResults + " possible combinations");
+
+        Map<String, Integer> outcomeMap = calculateSuccessRate(totalList, numResults);
+
+        int successTotal = outcomeMap.get("Total Success");
+        retStr += "Total Success" + ": " + successTotal + " " + ((float)successTotal /(float)numResults)*100.00000+"%" + "\n";
+        int failureTotal = outcomeMap.get("Total Failure");
+        retStr += "Total Failure" + ": " + failureTotal + " " + ((float)failureTotal /(float)numResults)*100.00000+"%" + "\n\n";
+
+        outcomeMap.remove("Total Success");
+        outcomeMap.remove("Total Failure");
+
+        List<String> outcomeList = new ArrayList<String>(outcomeMap.keySet());
+        Collections.sort(outcomeList);
+        for (String outcome: outcomeList) {
+            int outcomeTotal = outcomeMap.get(outcome);
+            //Log.d("D", outcome + ": " + outcomeTotal + " " + ((float)outcomeTotal /(float)numResults)*100.00000+"%");
+            retStr += outcome + ": " + outcomeTotal + " " + ((float)outcomeTotal /(float)numResults)*100.00000+"%" + "\n";
+        }
+
+        return retStr;
+    }
+    public OddsAnalysis(){
+        Log.d("D", "Starting");
+        possibleDice = new HashMap<String, int[][]>();
+        possibleDice.put("green", green);
+        possibleDice.put("yellow", yellow);
+        possibleDice.put("purple", purple);
+        possibleDice.put("red", red);
+        possibleDice.put("white", white);
+        possibleDice.put("black", black);
+        //possibleDice.put("force", force);
+    }
+
+}

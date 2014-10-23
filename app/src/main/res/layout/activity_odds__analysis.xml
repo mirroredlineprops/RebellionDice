@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum=".99"
+        android:layout_weight="0.1" >
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/button_ability"
+            android:onClick="addGreen"
+            android:background="@drawable/ability"
+            android:layout_weight="0.33"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/button_proficiency"
+            android:onClick="addYellow"
+            android:background="@drawable/proficiency"
+            android:layout_weight="0.33"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/button_boost"
+            android:onClick="addWhite"
+            android:background="@drawable/boost"
+            android:layout_weight="0.33"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum=".99"
+        android:layout_weight="0.1" >
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/button_difficulty"
+            android:onClick="addPurple"
+            android:background="@drawable/difficulty"
+            android:layout_weight="0.33"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/button_challenge"
+            android:onClick="addRed"
+            android:background="@drawable/challenge"
+            android:layout_weight="0.33"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/button_setback"
+            android:onClick="addBlack"
+            android:background="@drawable/setback"
+            android:layout_weight="0.33"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_weight="0.1" >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/button_Undo"
+            android:onClick="undoOnce"
+            android:layout_weight=".5"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="@string/button_clear"
+            android:onClick="undoAll"
+            android:layout_weight=".5"
+            />
+        </LinearLayout>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_send"
+        android:onClick="calculateOdds"
+        android:layout_weight="0.1"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5">
+
+        <TextView android:id="@+id/edit_message"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/button_roll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:text="@string/button_roll"
+        android:onClick="rollDice"/>
+
+</LinearLayout>

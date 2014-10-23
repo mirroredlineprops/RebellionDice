@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Rebellion Dice</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_Undo">Undo</string>
+    <string name="button_clear">Clear</string>
+    <string name="button_send">Calculate Odds</string>
+    <string name="button_roll">Roll the dice</string>
+    <string name="button_reroll">Re-roll the dice</string>
+    <string name="button_ability">Ability</string>
+    <string name="button_proficiency">Proficiency</string>
+    <string name="button_difficulty">Difficulty</string>
+    <string name="button_challenge">Challenge</string>
+    <string name="button_boost">Boost</string>
+    <string name="button_setback">Setback</string>
+    <string name="title_activity_expandable_list">Odds Breakdown</string>
+    <string name="title_activity_dice_roll">DiceRoll</string>
+    <string name="title_activity_expandable_dice_roll">expandable_dice_roll</string>
+
+</resources>
