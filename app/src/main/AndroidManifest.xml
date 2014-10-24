@@ -9,7 +9,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Holo.Light" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,15 +19,13 @@
         </activity>
         <activity
             android:name=".ExpandableListActivity"
-            android:label="@string/title_activity_expandable_list" >
+            android:label="@string/title_activity_expandable_list"
+            android:theme="@android:style/Theme.Holo.Light">
         </activity>
         <activity
             android:name=".DiceRoll"
-            android:label="@string/title_activity_dice_roll" >
-        </activity>
-        <activity
-            android:name=".expandable_dice_roll"
-            android:label="@string/title_activity_expandable_dice_roll" >
+            android:label="@string/title_activity_dice_roll"
+            android:theme="@android:style/Theme.Holo.Light" >
         </activity>
     </application>
 

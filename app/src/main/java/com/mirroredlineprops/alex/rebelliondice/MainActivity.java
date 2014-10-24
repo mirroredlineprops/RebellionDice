@@ -38,10 +38,18 @@ public class MainActivity extends Activity {
     }
 
     public void rollDice(View view) {
-        Intent intent = new Intent(this, DiceRoll.class);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
+        if (editText.getText().length()==0) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage("Please set at least one die");
+            AlertDialog dialog = alertDialogBuilder.create();
+            dialog.show();
+        }
+        else {
+            Intent intent = new Intent(this, DiceRoll.class);
+            String message = editText.getText().toString();
+            intent.putExtra(EXTRA_MESSAGE, message);
+            startActivity(intent);
+        }
     }
 
     public void addGreen(View view) {
