@@ -6,7 +6,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.tipsandtricks.HelloCard.dbhelpers.RefDbHelper;
+import com.mirroredlineprops.alex.rebelliondice.dbhelpers.RefDbHelper;
 
 import java.io.IOException;
 
