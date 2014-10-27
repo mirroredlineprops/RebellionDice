@@ -3,12 +3,16 @@ package com.mirroredlineprops.alex.rebelliondice;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.EditText;
+
+import com.mirroredlineprops.alex.rebelliondice.adapters.RefAdapter;
 
 
 public class MainActivity extends Activity {
@@ -19,6 +23,20 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_odds__analysis);
         editText = (TextView) findViewById(R.id.edit_message);
+
+        RefAdapter refAdapter = new RefAdapter(this);
+        refAdapter.createDatabase();
+        refAdapter.open();
+
+        Cursor refData = refAdapter.getTestData();
+        Log.d("HI", "HELLO");
+        refData.moveToFirst();
+        do {
+            Log.d("DATA", "" + refData.getString(1));
+        }
+        while (refData.moveToNext());
+
+        refAdapter.close();
     }
 
     /** Called when the user clicks the Send button */

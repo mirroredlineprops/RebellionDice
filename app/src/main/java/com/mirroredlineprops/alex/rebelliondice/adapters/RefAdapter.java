@@ -66,7 +66,7 @@ public class RefAdapter {
     {
         try
         {
-            String sql ="SELECT * FROM weapons";
+            String sql ="SELECT * FROM talent";
 
             Cursor mCur = mDb.rawQuery(sql, null);
             if (mCur!=null)
