@@ -25,6 +25,7 @@ public final class WeaponContract {
         public static final String COLUMN_NAME_MODS = "mods";
         public static final String COLUMN_NAME_SPECIAL = "special";
         public static final String COLUMN_NAME_TYPE = "type";
+        public static final String COLUMN_NAME_EQUIPPED = "equipped";
     }
 
 }

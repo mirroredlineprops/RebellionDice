@@ -23,6 +23,8 @@ public class CharContract {
         public static final String COLUMN_NAME_MAX_WOUNDS = "maxWounds";
         public static final String COLUMN_NAME_STRAIN = "strain";
         public static final String COLUMN_NAME_MAX_STRAIN = "maxStrain";
+        public static final String COLUMN_NAME_ENCUM = "encum";
+        public static final String COLUMN_NAME_MAX_ENCUM = "maxEncum";
         public static final String COLUMN_NAME_DEFENSE = "defense";
         public static final String COLUMN_NAME_BRAWN = "brawn";
         public static final String COLUMN_NAME_AGILITY = "agility";

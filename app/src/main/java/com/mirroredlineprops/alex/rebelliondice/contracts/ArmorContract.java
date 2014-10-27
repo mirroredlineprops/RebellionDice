@@ -20,6 +20,7 @@ public class ArmorContract {
             public static final String COLUMN_NAME_HP = "hp";
             public static final String COLUMN_NAME_MODS = "mods";
             public static final String COLUMN_NAME_SPECIAL = "special";
+            public static final String COLUMN_NAME_EQUIPPED = "equipped";
         }
 
 }
