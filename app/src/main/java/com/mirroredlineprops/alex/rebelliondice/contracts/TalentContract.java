@@ -16,5 +16,9 @@ public class TalentContract {
         public static final String TABLE_NAME = "weapons";
         public static final String COLUMN_NAME_ENTRY_ID = "entryid";
         public static final String COLUMN_NAME_NAME = "name";
+        public static final String COLUMN_NAME_ACTIVATION = "activation";
+        public static final String COLUMN_NAME_ACTIVE_TYPE = "activeType";
+        public static final String COLUMN_NAME_RANK = "rank";
+        public static final String COLUMN_NAME_SPECIAL = "special";
     }
 }

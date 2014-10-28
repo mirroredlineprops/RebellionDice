@@ -32,6 +32,6 @@ public class CharContract {
         public static final String COLUMN_NAME_CUNNING = "cunning";
         public static final String COLUMN_NAME_WILLPOWER = "willpower";
         public static final String COLUMN_NAME_PRESENCE = "presence";
-
+        public static final String COLUMN_NAME_SKILLSET = "skillset";
     }
 }
