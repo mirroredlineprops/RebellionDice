@@ -67,7 +67,7 @@ public class OddsAnalysis {
                 if (combinations.containsKey(key)){
                     totalHits += combinations.get(key);
                 }
-                combinations.put(key , totalHits);
+                combinations.put(key, totalHits);
             }
         }
         else {
@@ -121,7 +121,7 @@ public class OddsAnalysis {
         return outcome;
     }
 
-    private Map<String, Integer> calculateSuccessRate(Map<List<Integer>, Integer> totalList, int numResults) {
+    private Map<String, Integer> calculateSuccessRate(Map<List<Integer>, Integer> totalList, double numResults) {
         Map<String, Integer> outcomeMap = new HashMap<String, Integer>();
         outcomeMap.put("Total Success", 0);
         outcomeMap.put("Total Failure", 0);
@@ -164,7 +164,7 @@ public class OddsAnalysis {
         }
         totalList = enumerateCombinations(dicePool);
 
-        int numResults = 0;
+        double numResults = 0;
         for(Integer each:totalList.values()) {
             numResults += each;
         }
@@ -172,7 +172,7 @@ public class OddsAnalysis {
 
         Map<String, Integer> outcomeMap = calculateSuccessRate(totalList, numResults);
 
-        int successTotal = outcomeMap.get("Total Success");
+        double successTotal = outcomeMap.get("Total Success");
         double successPercent = ((float)successTotal /(float)numResults)*100.00000;
         if (successPercent >= 1){
             retStr.add("Total Success" + ": " + String.format("%.2f",successPercent) +"%");
@@ -181,7 +181,7 @@ public class OddsAnalysis {
             retStr.add("Total Success" + ": " + "<1%");
         }
 
-        int failureTotal = outcomeMap.get("Total Failure");
+        double failureTotal = outcomeMap.get("Total Failure");
         double failurePercent = ((float)failureTotal /(float)numResults)*100.00000;
         if (failureTotal >= 1){
             retStr.add("Total Failure" + ": " + String.format("%.2f",failurePercent) +"%");
@@ -197,7 +197,7 @@ public class OddsAnalysis {
         List<String> outcomeList = new ArrayList<String>(outcomeMap.keySet());
         Collections.sort(outcomeList);
         for (String outcome: outcomeList) {
-            int outcomeTotal = outcomeMap.get(outcome);
+            double outcomeTotal = outcomeMap.get(outcome);
             double percentage = ((float)outcomeTotal /(float)numResults)*100.00000;
             if (percentage >= 1) {
                 retStr.add(outcome + ": " + String.format("%.2f", percentage) + "%");
