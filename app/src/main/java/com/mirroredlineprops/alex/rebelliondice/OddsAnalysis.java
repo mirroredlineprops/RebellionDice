@@ -173,7 +173,7 @@ public class OddsAnalysis {
         Map<String, Double> outcomeMap = calculateSuccessRate(totalList, numResults);
 
         double successTotal = outcomeMap.get("Total Success");
-        double successPercent = ((float)successTotal /(float)numResults)*100.00000;
+        double successPercent = (successTotal / numResults)*100.00000;
         if (successPercent >= 1){
             retStr.add("Total Success" + ": " + String.format("%.2f",successPercent) +"%");
         }
@@ -182,7 +182,7 @@ public class OddsAnalysis {
         }
 
         double failureTotal = outcomeMap.get("Total Failure");
-        double failurePercent = ((float)failureTotal /(float)numResults)*100.00000;
+        double failurePercent = (failureTotal / numResults)*100.00000;
         if (failureTotal >= 1){
             retStr.add("Total Failure" + ": " + String.format("%.2f",failurePercent) +"%");
         }
@@ -198,7 +198,7 @@ public class OddsAnalysis {
         Collections.sort(outcomeList);
         for (String outcome: outcomeList) {
             double outcomeTotal = outcomeMap.get(outcome);
-            double percentage = ((float)outcomeTotal /(float)numResults)*100.00000;
+            double percentage = (outcomeTotal / numResults)*100.00000;
             if (percentage >= 1) {
                 retStr.add(outcome + ": " + String.format("%.2f", percentage) + "%");
             }
