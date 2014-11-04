@@ -31,6 +31,26 @@ public class CharCardsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_char_cards);
 
+        findViewById(R.id.diceCard).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(CharCardsActivity.this, DiceMainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.newCharCard).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(CharCardsActivity.this, DiceMainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         ListView list = (ListView)findViewById(R.id.card_list_view);
 
         list.addHeaderView(new View(this));
@@ -41,18 +61,21 @@ public class CharCardsActivity extends Activity {
         adapter.addItem(passThrough, false);
         StatsDbHelper stats = new StatsDbHelper(getBaseContext());
         SQLiteDatabase statsDb= stats.getReadableDatabase();
-        Cursor c = getCharsCursor(statsDb);
+        Cursor c = StatsDbHelper.getCharsCursor(statsDb);
 
-        c.moveToFirst();
-        do {
-            long itemId = c.getLong( c.getColumnIndexOrThrow(CharEntry._ID));
-            String name = c.getString(1);
-            CardItemData data = new CardItemData("Id " + itemId, "Name " + name, "");
-            adapter.addItem(data, false);
+        if(c.moveToFirst()) {
+            do {
+                long itemId = c.getLong( c.getColumnIndexOrThrow(CharEntry._ID));
+                String name = c.getString(1);
+                CardItemData data = new CardItemData("Id " + itemId, "Name " + name, "");
+                adapter.addItem(data, false);
+            }
+            while(c.moveToNext());
+
+            statsDb.close();
+
+
         }
-        while(c.moveToNext());
-
-        statsDb.close();
 
         list.setAdapter(adapter);
         AdapterView av = (AdapterView)findViewById(R.id.card_list_view);
@@ -64,7 +87,6 @@ public class CharCardsActivity extends Activity {
                 startActivity(intent);
             }
         });
-
         /*
         StatsDbHelper statsDbHelper = new StatsDbHelper(getBaseContext());
         SQLiteDatabase db= statsDbHelper.getWritableDatabase();
@@ -115,28 +137,4 @@ public class CharCardsActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private Cursor getCharsCursor(SQLiteDatabase statsDb) {
-        String[] projection = {
-                CharEntry._ID,
-                CharEntry.COLUMN_NAME_NAME
-        };
-
-        String sortOrder = CharEntry.COLUMN_NAME_ENTRY_ID + " DESC";
-        // Define 'where' part of query.
-        String selection = CharEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
-        // Specify arguments in placeholder order.
-        int rowId = 1;
-        String[] selectionArgs = { String.valueOf(rowId) };
-
-        Cursor c = statsDb.query(
-                CharEntry.TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null, // group by
-                null, // having
-                sortOrder
-        );
-        return c;
-    }
 }

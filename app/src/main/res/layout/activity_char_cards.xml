@@ -4,8 +4,25 @@
     android:layout_height="match_parent"
     tools:context="com.mirroredlineprops.alex.rebelliondice.CharCardsActivity"
     android:gravity="center"
-    android:background="#E0EEEE">
-
+    android:background="#E0EEEE"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/diceCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:gravity="center"
+        android:padding="15dp"
+        android:background="@drawable/selector_card_background"
+        android:text="Click Here \nto go straight to the dice utility"/>
+    <TextView
+        android:id="@+id/newCharCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="15dp"
+        android:background="@drawable/selector_card_background"
+        android:text="Click Here \n to create a new character"/>
     <ListView
         android:id="@+id/card_list_view"
         android:layout_width="match_parent"

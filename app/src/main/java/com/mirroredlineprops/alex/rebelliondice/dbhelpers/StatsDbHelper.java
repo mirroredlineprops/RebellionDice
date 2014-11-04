@@ -1,9 +1,11 @@
 package com.mirroredlineprops.alex.rebelliondice.dbhelpers;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.mirroredlineprops.alex.rebelliondice.contracts.CharContract;
 import com.mirroredlineprops.alex.rebelliondice.dbhelpers.DbStrings;
 
 public class StatsDbHelper extends SQLiteOpenHelper {
@@ -35,6 +37,31 @@ public class StatsDbHelper extends SQLiteOpenHelper {
         db.execSQL(DbStrings.SQL_DELETE_TALENT_ENTRIES);
         db.execSQL(DbStrings.SQL_DELETE_TREE_ENTRIES);
         onCreate(db);
+    }
+
+    public static Cursor getCharsCursor(SQLiteDatabase statsDb) {
+        String[] projection = {
+                CharContract.CharEntry._ID,
+                CharContract.CharEntry.COLUMN_NAME_NAME
+        };
+
+        String sortOrder = CharContract.CharEntry.COLUMN_NAME_ENTRY_ID + " DESC";
+        // Define 'where' part of query.
+        String selection = CharContract.CharEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+        // Specify arguments in placeholder order.
+        int rowId = 1;
+        String[] selectionArgs = { String.valueOf(rowId) };
+
+        Cursor c = statsDb.query(
+                CharContract.CharEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null, // group by
+                null, // having
+                sortOrder
+        );
+        return c;
     }
 
 }
