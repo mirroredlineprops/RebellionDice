@@ -1,7 +1,10 @@
 package com.mirroredlineprops.alex.rebelliondice;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,6 +16,8 @@ import android.widget.ListView;
 import com.mirroredlineprops.alex.rebelliondice.adapters.BaseInflaterAdapter;
 import com.mirroredlineprops.alex.rebelliondice.adapters.CardItemData;
 import com.mirroredlineprops.alex.rebelliondice.adapters.inflaters.CardInflater;
+import com.mirroredlineprops.alex.rebelliondice.contracts.CharContract.CharEntry;
+import com.mirroredlineprops.alex.rebelliondice.dbhelpers.StatsDbHelper;
 
 
 public class CharCardsActivity extends Activity {
@@ -34,11 +39,20 @@ public class CharCardsActivity extends Activity {
         BaseInflaterAdapter<CardItemData> adapter = new BaseInflaterAdapter<CardItemData>(new CardInflater());
         CardItemData passThrough = new CardItemData("Click here", "to go to", "blank character");
         adapter.addItem(passThrough, false);
-        for (int i = 0; i < 5; i++)
-        {
-            CardItemData data = new CardItemData("Item " + i + " Line 1", "Item " + i + " Line 2", "Item " + i + " Line 3");
+        StatsDbHelper stats = new StatsDbHelper(getBaseContext());
+        SQLiteDatabase statsDb= stats.getReadableDatabase();
+        Cursor c = getCharsCursor(statsDb);
+
+        c.moveToFirst();
+        do {
+            long itemId = c.getLong( c.getColumnIndexOrThrow(CharEntry._ID));
+            String name = c.getString(1);
+            CardItemData data = new CardItemData("Id " + itemId, "Name " + name, "");
             adapter.addItem(data, false);
         }
+        while(c.moveToNext());
+
+        statsDb.close();
 
         list.setAdapter(adapter);
         AdapterView av = (AdapterView)findViewById(R.id.card_list_view);
@@ -51,58 +65,22 @@ public class CharCardsActivity extends Activity {
             }
         });
 
-        //StatsDbHelper statsDbHelper = new StatsDbHelper(getBaseContext());
-        //SQLiteDatabase db; //= statsDbHelper.getWritableDatabase();
         /*
+        StatsDbHelper statsDbHelper = new StatsDbHelper(getBaseContext());
+        SQLiteDatabase db= statsDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(WeaponEntry.COLUMN_NAME_ENTRY_ID, 1);
-        values.put(WeaponEntry.COLUMN_NAME_NAME, "Test_Name");
-        values.put(WeaponEntry.COLUMN_NAME_MODEL, "Test_Model");
+        values.put(CharEntry.COLUMN_NAME_ENTRY_ID, 1);
+        values.put(CharEntry.COLUMN_NAME_NAME, "Test_Name");
 
         long newRowId;
         newRowId = db.insert(
-                WeaponEntry.TABLE_NAME,
+                CharEntry.TABLE_NAME,
                 null,
                 values );
 
         db.close();
         */
-
         /*
-        db = statsDbHelper.getReadableDatabase();
-        String[] projection = {
-                WeaponContract.WeaponEntry._ID,
-                WeaponContract.WeaponEntry.COLUMN_NAME_NAME,
-                WeaponContract.WeaponEntry.COLUMN_NAME_MODEL
-        };
-
-        String sortOrder = WeaponContract.WeaponEntry.COLUMN_NAME_ENTRY_ID + " DESC";
-        // Define 'where' part of query.
-        String selection = WeaponContract.WeaponEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
-        // Specify arguments in placeholder order.
-        int rowId = 1;
-        String[] selectionArgs = { String.valueOf(rowId) };
-
-        Cursor c = db.query(
-                WeaponContract.WeaponEntry.TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder
-        );
-
-        c.moveToFirst();
-        long itemId = c.getLong( c.getColumnIndexOrThrow(WeaponContract.WeaponEntry._ID));
-        String name = c.getString(1);
-        String model = c.getString(2);
-
-        Log.d("D", itemId + "");
-        Log.d("E", name + "");
-        Log.d("F", model + "");
-
-        db.close();
 
         RefAdapter refAdapter = new RefAdapter(this);
         refAdapter.createDatabase();
@@ -130,13 +108,35 @@ public class CharCardsActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private Cursor getCharsCursor(SQLiteDatabase statsDb) {
+        String[] projection = {
+                CharEntry._ID,
+                CharEntry.COLUMN_NAME_NAME
+        };
+
+        String sortOrder = CharEntry.COLUMN_NAME_ENTRY_ID + " DESC";
+        // Define 'where' part of query.
+        String selection = CharEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+        // Specify arguments in placeholder order.
+        int rowId = 1;
+        String[] selectionArgs = { String.valueOf(rowId) };
+
+        Cursor c = statsDb.query(
+                CharEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null, // group by
+                null, // having
+                sortOrder
+        );
+        return c;
     }
 }
