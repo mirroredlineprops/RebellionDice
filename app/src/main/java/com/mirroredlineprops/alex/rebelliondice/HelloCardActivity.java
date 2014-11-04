@@ -88,7 +88,7 @@ public class HelloCardActivity extends Activity
         refAdapter.createDatabase();
         refAdapter.open();
 
-        Cursor refData = refAdapter.getTestData();
+        Cursor refData = refAdapter.getSpecies();
         Log.d("HI", "HELLO");
         refData.moveToFirst();
         do {

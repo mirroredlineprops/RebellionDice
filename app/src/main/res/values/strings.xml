@@ -19,5 +19,7 @@
     <string name="title_activity_expandable_list">Odds Breakdown</string>
     <string name="title_activity_dice_roll">DiceRoll</string>
     <string name="title_activity_expandable_dice_roll">expandable_dice_roll</string>
-
+    <string name="title_activity_stats_list">StatsListActivity</string>
+    <string name="title_activity_dice_main">DiceMain</string>
+    <string name="title_activity_char_cards">CharCards</string>
 </resources>

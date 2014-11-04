@@ -51,19 +51,19 @@ public class OddsAnalysis {
         return total;
     }
 
-    private Map<List<Integer>, Integer> enumerateCombinations(List<Integer[][]> dicePool){
-        Map<List<Integer>, Integer> combinations = new HashMap<List<Integer>, Integer>();
+    private Map<List<Integer>, Double> enumerateCombinations(List<Integer[][]> dicePool){
+        Map<List<Integer>, Double> combinations = new HashMap<List<Integer>, Double>();
         for (Integer[][] die: dicePool){
             combinations = addDieToMap(die, combinations);
         }
         return combinations;
     }
 
-    private Map<List<Integer>, Integer> addDieToMap(Integer[][] die, Map<List<Integer>, Integer> combinations){
+    private Map<List<Integer>, Double> addDieToMap(Integer[][] die, Map<List<Integer>, Double> combinations){
         if (combinations.size() == 0){
             for (Integer[] side:die){
                 List<Integer> key = new ArrayList(Arrays.asList(side));
-                int totalHits = 1;
+                double totalHits = 1;
                 if (combinations.containsKey(key)){
                     totalHits += combinations.get(key);
                 }
@@ -71,11 +71,11 @@ public class OddsAnalysis {
             }
         }
         else {
-            Map<List<Integer>, Integer> tempMap = new HashMap<List<Integer>, Integer>();
+            Map<List<Integer>, Double> tempMap = new HashMap<List<Integer>, Double>();
 
             for (Integer[] side: die) {
                 for (List<Integer> combo: combinations.keySet()){
-                    int totalHits = combinations.get(combo);
+                    double totalHits = combinations.get(combo);
                     List<Integer> matrix = matrixAdd(new ArrayList(Arrays.asList(side)), combo);
                     if (tempMap.containsKey(matrix)){
                         totalHits += tempMap.get(matrix);
@@ -121,10 +121,10 @@ public class OddsAnalysis {
         return outcome;
     }
 
-    private Map<String, Integer> calculateSuccessRate(Map<List<Integer>, Integer> totalList, double numResults) {
-        Map<String, Integer> outcomeMap = new HashMap<String, Integer>();
-        outcomeMap.put("Total Success", 0);
-        outcomeMap.put("Total Failure", 0);
+    private Map<String, Double> calculateSuccessRate(Map<List<Integer>, Double> totalList, double numResults) {
+        Map<String, Double> outcomeMap = new HashMap<String, Double>();
+        outcomeMap.put("Total Success", 0.0);
+        outcomeMap.put("Total Failure", 0.0);
 
         for (List<Integer> result: totalList.keySet()) {
             String outStr = outcomeString(result);
@@ -148,7 +148,7 @@ public class OddsAnalysis {
     public List<String> runOdds(String diceToAnalyze){
         List<String> retStr = new ArrayList<String>();
 
-        Map<List<Integer>, Integer> totalList = new HashMap<List<Integer>, Integer>();
+        Map<List<Integer>, Double> totalList = new HashMap<List<Integer>, Double>();
         List<Integer[][]> dicePool = new ArrayList<Integer[][]>();
         for (String die:diceToAnalyze.split(", ")){
             if (possibleDice.containsKey(die.toLowerCase())){
@@ -165,12 +165,12 @@ public class OddsAnalysis {
         totalList = enumerateCombinations(dicePool);
 
         double numResults = 0;
-        for(Integer each:totalList.values()) {
+        for(Double each:totalList.values()) {
             numResults += each;
         }
         //retStr += numResults + " possible combinations" + "\n";
 
-        Map<String, Integer> outcomeMap = calculateSuccessRate(totalList, numResults);
+        Map<String, Double> outcomeMap = calculateSuccessRate(totalList, numResults);
 
         double successTotal = outcomeMap.get("Total Success");
         double successPercent = ((float)successTotal /(float)numResults)*100.00000;

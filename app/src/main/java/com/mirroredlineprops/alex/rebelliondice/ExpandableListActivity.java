@@ -24,7 +24,7 @@ public class ExpandableListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String message = intent.getStringExtra(StatsListActivity.EXTRA_MESSAGE);
         OddsAnalysis oa = new OddsAnalysis();
         List<String> results = oa.runOdds(message);
         setContentView(R.layout.activity_expandable_list);

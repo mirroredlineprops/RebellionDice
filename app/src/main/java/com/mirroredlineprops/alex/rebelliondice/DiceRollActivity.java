@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import com.mirroredlineprops.alex.rebelliondice.adapters.ExpandableListAdapter;
 
@@ -17,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class DiceRoll extends Activity {
+public class DiceRollActivity extends Activity {
 
     List<String> groupList;
     String message;
@@ -29,7 +27,7 @@ public class DiceRoll extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        message = intent.getStringExtra(StatsListActivity.EXTRA_MESSAGE);
         oddsAnalysis = new OddsAnalysis();
         resultsCollection = new LinkedHashMap<String, List<String>>();
         groupList = new ArrayList<String>();

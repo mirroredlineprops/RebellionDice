@@ -14,7 +14,7 @@ public class ArmorContract {
         public static abstract class ArmorEntry implements BaseColumns {
             public static final String TABLE_NAME = "armor";
             public static final String COLUMN_NAME_ENTRY_ID = "entryid";
-            public static final String COLUMN_NAME_NAME = "defense";
+            public static final String COLUMN_NAME_NAME = "name";
             public static final String COLUMN_NAME_DEFENSE = "defense";
             public static final String COLUMN_NAME_SOAK = "soak";
             public static final String COLUMN_NAME_ENCUM = "encum";

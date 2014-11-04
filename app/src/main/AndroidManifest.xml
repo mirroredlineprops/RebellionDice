@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".CharCardsActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,8 +21,24 @@
             android:label="@string/title_activity_expandable_list" >
         </activity>
         <activity
-            android:name=".DiceRoll"
+            android:name=".DiceRollActivity"
             android:label="@string/title_activity_dice_roll" >
+        </activity>
+        <activity
+            android:name=".StatsListActivity"
+            android:label="@string/title_activity_stats_list"
+            android:parentActivityName=".CharCardsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mirroredlineprops.alex.rebelliondice.CharCards" />
+        </activity>
+        <activity
+            android:name=".DiceMainActivity"
+            android:label="@string/title_activity_dice_main"
+            android:parentActivityName=".StatsListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mirroredlineprops.alex.rebelliondice.MainActivity" />
         </activity>
     </application>
 

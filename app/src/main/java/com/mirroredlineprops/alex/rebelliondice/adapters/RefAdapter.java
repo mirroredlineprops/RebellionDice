@@ -62,12 +62,15 @@ public class RefAdapter {
         mDbHelper.close();
     }
 
-    public Cursor getTestData()
+
+    public Cursor getSpecies() {
+        return getData("SELECT * FROM race");
+    }
+
+    public Cursor getData(String sql)
     {
         try
         {
-            String sql ="SELECT * FROM talent";
-
             Cursor mCur = mDb.rawQuery(sql, null);
             if (mCur!=null)
             {

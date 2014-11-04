@@ -10,12 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.EditText;
 
 import com.mirroredlineprops.alex.rebelliondice.adapters.RefAdapter;
 
 
-public class MainActivity extends Activity {
+public class DiceMainActivity extends Activity {
     public final static String EXTRA_MESSAGE = "com.mirroredlineprops.alex.rebelliondice.MESSAGE";
     TextView editText;
     @Override
@@ -28,7 +27,7 @@ public class MainActivity extends Activity {
         refAdapter.createDatabase();
         refAdapter.open();
 
-        Cursor refData = refAdapter.getTestData();
+        Cursor refData = refAdapter.getSpecies();
         Log.d("HI", "HELLO");
         refData.moveToFirst();
         do {
@@ -63,7 +62,7 @@ public class MainActivity extends Activity {
             dialog.show();
         }
         else {
-            Intent intent = new Intent(this, DiceRoll.class);
+            Intent intent = new Intent(this, DiceRollActivity.class);
             String message = editText.getText().toString();
             intent.putExtra(EXTRA_MESSAGE, message);
             startActivity(intent);
@@ -144,15 +143,12 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.odds__analysis, menu);
+        getMenuInflater().inflate(R.menu.dice_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
