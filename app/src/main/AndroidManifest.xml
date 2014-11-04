@@ -40,6 +40,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mirroredlineprops.alex.rebelliondice.MainActivity" />
         </activity>
+        <activity
+            android:name=".CharWizardActivity"
+            android:label="@string/title_activity_char_wizard" >
+        </activity>
     </application>
 
 </manifest>

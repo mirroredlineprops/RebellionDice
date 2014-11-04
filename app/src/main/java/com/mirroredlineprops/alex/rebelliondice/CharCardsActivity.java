@@ -36,7 +36,7 @@ public class CharCardsActivity extends Activity {
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(CharCardsActivity.this, DiceMainActivity.class);
+                Intent intent = new Intent(CharCardsActivity.this, CharWizardActivity.class);
                 startActivity(intent);
             }
         });
