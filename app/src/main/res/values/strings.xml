@@ -23,5 +23,6 @@
     <string name="title_activity_dice_main">DiceMain</string>
     <string name="title_activity_char_cards">CharCards</string>
     <string name="title_activity_char_wizard">CharWizardActivity</string>
+    <string name="title_activity_stats_wizard">StatsWizardActivity</string>
 
 </resources>

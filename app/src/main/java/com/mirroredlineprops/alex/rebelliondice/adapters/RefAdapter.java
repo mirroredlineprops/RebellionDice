@@ -78,12 +78,22 @@ public class RefAdapter {
         return species;
     }
 
-    public Map<String, String> getCareers() {
+    public Map<String, List<String>> getCareers() {
         Cursor refData = getData("SELECT * FROM trees");
         refData.moveToFirst();
-        Map<String, String> careerMap = new HashMap<String, String>();
+        Map<String, List<String>> careerMap = new HashMap<String, List<String>>();
         do {
-            careerMap.put(refData.getString(1), refData.getString(2));
+            String career = refData.getString(1);
+            String special = refData.getString(2);
+            List<String> data;
+            if (careerMap.get(career) == null) {
+                data = new ArrayList<String>();
+            }
+            else {
+                data = careerMap.get(career);
+            }
+            data.add(special);
+            careerMap.put(career, data);
         }
         while (refData.moveToNext());
         return careerMap;

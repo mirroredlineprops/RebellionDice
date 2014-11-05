@@ -64,4 +64,8 @@ public class StatsDbHelper extends SQLiteOpenHelper {
         return c;
     }
 
+    public static Cursor getCharById(SQLiteDatabase statsDb, long id){
+        return null;
+    }
+
 }

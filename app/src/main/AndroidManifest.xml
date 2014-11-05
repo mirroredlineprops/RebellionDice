@@ -44,6 +44,10 @@
             android:name=".CharWizardActivity"
             android:label="@string/title_activity_char_wizard" >
         </activity>
+        <activity
+            android:name=".StatsWizardActivity"
+            android:label="@string/title_activity_stats_wizard" >
+        </activity>
     </application>
 
 </manifest>
