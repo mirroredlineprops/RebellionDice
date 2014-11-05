@@ -9,6 +9,10 @@ import android.util.Log;
 import com.mirroredlineprops.alex.rebelliondice.dbhelpers.RefDbHelper;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by alex.costanzo on 10/24/2014.
@@ -63,8 +67,26 @@ public class RefAdapter {
     }
 
 
-    public Cursor getSpecies() {
-        return getData("SELECT * FROM race");
+    public List<String> getSpecies() {
+        Cursor refData = getData("SELECT * FROM race");
+        refData.moveToFirst();
+        List<String> species = new ArrayList<String>();
+        do {
+            species.add(refData.getString(1));
+        }
+        while (refData.moveToNext());
+        return species;
+    }
+
+    public Map<String, String> getCareers() {
+        Cursor refData = getData("SELECT * FROM trees");
+        refData.moveToFirst();
+        Map<String, String> careerMap = new HashMap<String, String>();
+        do {
+            careerMap.put(refData.getString(1), refData.getString(2));
+        }
+        while (refData.moveToNext());
+        return careerMap;
     }
 
     public Cursor getData(String sql)

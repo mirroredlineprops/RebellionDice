@@ -22,7 +22,7 @@ public class DiceMainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_odds__analysis);
         editText = (TextView) findViewById(R.id.edit_message);
-
+        /*
         RefAdapter refAdapter = new RefAdapter(this);
         refAdapter.createDatabase();
         refAdapter.open();
@@ -36,6 +36,7 @@ public class DiceMainActivity extends Activity {
         while (refData.moveToNext());
 
         refAdapter.close();
+        */
     }
 
     /** Called when the user clicks the Send button */

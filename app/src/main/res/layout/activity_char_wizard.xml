@@ -4,11 +4,38 @@
     android:layout_height="match_parent"
     tools:context="com.mirroredlineprops.alex.rebelliondice.CharCardsActivity"
     android:orientation="vertical">
-
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Character Name"/>
     <EditText
+        android:id="@+id/charNameEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Character Name"
-        android:inputType="text"/>
-
+        android:inputType="textPersonName"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Species"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/speciesSpinner"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Career"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/careerSpinner"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="First Specialization"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/specializationSpinner"/>
 </LinearLayout>

@@ -4,6 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import com.mirroredlineprops.alex.rebelliondice.adapters.RefAdapter;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 
 public class CharWizardActivity extends Activity {
@@ -12,6 +21,41 @@ public class CharWizardActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_char_wizard);
+        RefAdapter refAdapter = new RefAdapter(this);
+        refAdapter.createDatabase();
+        refAdapter.open();
+
+        List<String> species = refAdapter.getSpecies();
+        Map<String, String> careerMap = refAdapter.getCareers();
+        refAdapter.close();
+
+        Spinner speciesSpinner = (Spinner) findViewById(R.id.speciesSpinner);
+        ArrayAdapter<String> speciesAdapter =
+                new ArrayAdapter<String>(CharWizardActivity.this,
+                        android.R.layout.simple_spinner_item, species);
+        speciesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        speciesSpinner.setAdapter(speciesAdapter);
+        speciesSpinner.setSelection(4);
+
+        Spinner careerSpinner = (Spinner) findViewById(R.id.careerSpinner);
+        ArrayList<String> careerList = new ArrayList<String>(careerMap.keySet());
+        Collections.sort(careerList);
+        careerList.remove("Universal");
+        ArrayAdapter<String> careerAdapter =
+                new ArrayAdapter<String>(CharWizardActivity.this,
+                        android.R.layout.simple_spinner_item, careerList);
+        careerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        careerSpinner.setAdapter(careerAdapter);
+
+        Spinner specialSpinner = (Spinner) findViewById(R.id.specializationSpinner);
+        ArrayList<String> specialList = new ArrayList<String>(careerMap.values());
+        Collections.sort(specialList);
+        ArrayAdapter<String> specialAdapter =
+                new ArrayAdapter<String>(CharWizardActivity.this,
+                        android.R.layout.simple_spinner_item, specialList);
+        specialAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        specialSpinner.setAdapter(specialAdapter);
+
     }
 
 
