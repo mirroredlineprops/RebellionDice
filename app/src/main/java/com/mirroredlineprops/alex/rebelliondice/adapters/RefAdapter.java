@@ -68,7 +68,7 @@ public class RefAdapter {
 
 
     public List<String> getSpecies() {
-        Cursor refData = getData("SELECT * FROM race");
+        Cursor refData = getData("SELECT _id, Name FROM race");
         refData.moveToFirst();
         List<String> species = new ArrayList<String>();
         do {
@@ -76,6 +76,10 @@ public class RefAdapter {
         }
         while (refData.moveToNext());
         return species;
+    }
+
+    public Cursor getSpeciesStats(String speciesName) {
+        return getData("SELECT * FROM race WHERE Name=\"" + speciesName + "\"");
     }
 
     public Map<String, List<String>> getCareers() {

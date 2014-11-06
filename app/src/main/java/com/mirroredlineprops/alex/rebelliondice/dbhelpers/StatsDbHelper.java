@@ -39,18 +39,19 @@ public class StatsDbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public static Cursor getCharsCursor(SQLiteDatabase statsDb) {
+    public static Cursor getCharNames(SQLiteDatabase statsDb) {
         String[] projection = {
                 CharContract.CharEntry._ID,
                 CharContract.CharEntry.COLUMN_NAME_NAME
         };
 
+        return getCharsCursor(statsDb, projection, null, null);
+    }
+    private static Cursor getCharsCursor(SQLiteDatabase statsDb, String[] projection, String selection, String[] selectionArgs) {
+
+
         String sortOrder = CharContract.CharEntry.COLUMN_NAME_ENTRY_ID + " DESC";
         // Define 'where' part of query.
-        String selection = CharContract.CharEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
-        // Specify arguments in placeholder order.
-        int rowId = 1;
-        String[] selectionArgs = { String.valueOf(rowId) };
 
         Cursor c = statsDb.query(
                 CharContract.CharEntry.TABLE_NAME,
@@ -64,8 +65,8 @@ public class StatsDbHelper extends SQLiteOpenHelper {
         return c;
     }
 
-    public static Cursor getCharById(SQLiteDatabase statsDb, long id){
-        return null;
+    public static Cursor getCharById(SQLiteDatabase statsDb, long id) {
+        return getCharsCursor(statsDb, null, "_id=\"" + id + "\"", null);
     }
 
 }

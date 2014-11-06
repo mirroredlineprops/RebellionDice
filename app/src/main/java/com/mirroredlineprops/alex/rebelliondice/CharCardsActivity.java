@@ -11,7 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.mirroredlineprops.alex.rebelliondice.adapters.BaseInflaterAdapter;
 import com.mirroredlineprops.alex.rebelliondice.adapters.CardItemData;
@@ -21,6 +23,7 @@ import com.mirroredlineprops.alex.rebelliondice.dbhelpers.StatsDbHelper;
 
 
 public class CharCardsActivity extends Activity {
+    public final static String ROW_ID = "com.mirroredlineprops.alex.rebelliondice.ROW_ID";
 
     /**
      * Called when the activity is first created.
@@ -46,7 +49,20 @@ public class CharCardsActivity extends Activity {
             @Override
             public void onClick(View view)
             {
+                StatsDbHelper statsDbHelper = new StatsDbHelper(getBaseContext());
+                SQLiteDatabase db= statsDbHelper.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put(CharEntry.COLUMN_NAME_ENTRY_ID, 1);
+                long newRowId;
+                newRowId = db.insert(
+                        CharEntry.TABLE_NAME,
+                        null,
+                        values );
+
+                db.close();
+
                 Intent intent = new Intent(CharCardsActivity.this, CharWizardActivity.class);
+                intent.putExtra(ROW_ID, newRowId);
                 startActivity(intent);
             }
         });
@@ -61,7 +77,7 @@ public class CharCardsActivity extends Activity {
         adapter.addItem(passThrough, false);
         StatsDbHelper stats = new StatsDbHelper(getBaseContext());
         SQLiteDatabase statsDb= stats.getReadableDatabase();
-        Cursor c = StatsDbHelper.getCharsCursor(statsDb);
+        Cursor c = StatsDbHelper.getCharNames(statsDb);
 
         if(c.moveToFirst()) {
             do {
@@ -84,6 +100,7 @@ public class CharCardsActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CharCardsActivity.this, StatsListActivity.class);
+                intent.putExtra(CharCardsActivity.ROW_ID, id);
                 startActivity(intent);
             }
         });

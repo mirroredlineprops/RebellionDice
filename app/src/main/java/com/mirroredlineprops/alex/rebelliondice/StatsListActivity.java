@@ -2,6 +2,8 @@ package com.mirroredlineprops.alex.rebelliondice;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,7 +16,10 @@ import android.widget.ExpandableListView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 
+import com.mirroredlineprops.alex.rebelliondice.adapters.CardItemData;
 import com.mirroredlineprops.alex.rebelliondice.adapters.StatsListAdapter;
+import com.mirroredlineprops.alex.rebelliondice.contracts.CharContract;
+import com.mirroredlineprops.alex.rebelliondice.dbhelpers.StatsDbHelper;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -24,6 +29,7 @@ import java.util.Map;
 
 public class StatsListActivity extends Activity {
     public final static String EXTRA_MESSAGE = "com.mirroredlineprops.alex.rebelliondice.MESSAGE";
+    public final static String ROW_ID = "com.mirroredlineprops.alex.rebelliondice.ROW_ID";
     List<String> groupList;
     //List<String> childList;
     Map<String, List<String>> resultsCollection;
@@ -31,11 +37,14 @@ public class StatsListActivity extends Activity {
     String[] DayOfWeek = {"Sunday", "Monday", "Tuesday",
             "Wednesday", "Thursday", "Friday", "Saturday"};
     String selected = "";
+    Long rowId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats_list);
+        Intent intent = getIntent();
+        rowId = intent.getLongExtra(StatsListActivity.ROW_ID, -1);
 
         createGroupList(null);
         createCollection(null);
@@ -83,26 +92,29 @@ public class StatsListActivity extends Activity {
 
     private void createGroupList(List<String> results) {
         groupList = new ArrayList<String>();
-        groupList.add("Hello");
-        //groupList.add(results.get(1));
+        groupList.add("Character");
+        groupList.add("Stats");
     }
 
     private void createCollection(List<String> results) {
-
         resultsCollection = new LinkedHashMap<String, List<String>>();
-        List<String> successList = new ArrayList<String>();
-        successList.add("World");
-        /*
-        for (String result : results.subList(2, results.size())) {
-            if (result.startsWith("Success")) {
-                successList.add(result);
-            }
-            else {
-                failureList.add(result);
-            }
+        StatsDbHelper stats = new StatsDbHelper(getBaseContext());
+        SQLiteDatabase statsDb= stats.getReadableDatabase();
+        Cursor c = StatsDbHelper.getCharById(statsDb, rowId);
+        if (c.moveToFirst()) {
+            List<String> charList = new ArrayList<String>();
+            charList.add("Name: " + c.getString(2));
+            charList.add("Species: " + c.getString(3));
+            charList.add("Career: " + c.getString(4));
+            charList.add("Specializations: " + c.getString(5) + ", " + c.getString(5) + ", " + c.getString(5));
+            resultsCollection.put("Character", charList);
+
+            List<String> statsList = new ArrayList<String>();
+            statsList.add("Brawn: " + c.getString(15));
+
+            resultsCollection.put("Stats", statsList);
         }
-        */
-        resultsCollection.put("Hello", successList);
+        statsDb.close();
     }
 
     @Override

@@ -24,11 +24,17 @@ import java.util.Map;
 
 public class CharWizardActivity extends Activity {
     public final static String ROW_ID = "com.mirroredlineprops.alex.rebelliondice.ROW_ID";
+    public final static String SPECIES = "com.mirroredlineprops.alex.rebelliondice.SPECIES";
+    private long rowId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_char_wizard);
+
+        Intent intent = getIntent();
+        rowId = intent.getLongExtra(CharWizardActivity.ROW_ID, -1);
+
         RefAdapter refAdapter = new RefAdapter(this);
         refAdapter.createDatabase();
         refAdapter.open();
@@ -101,16 +107,22 @@ public class CharWizardActivity extends Activity {
         values.put(CharEntry.COLUMN_NAME_SPECIES, ((Spinner)findViewById(R.id.speciesSpinner)).getSelectedItem().toString());
         values.put(CharEntry.COLUMN_NAME_CAREER, ((Spinner)findViewById(R.id.careerSpinner)).getSelectedItem().toString());
         values.put(CharEntry.COLUMN_NAME_TREES, ((Spinner)findViewById(R.id.specializationSpinner)).getSelectedItem().toString());
-        long newRowId;
-        newRowId = db.insert(
+
+        /*long newRowId = db.insert(
                 CharEntry.TABLE_NAME,
                 null,
                 values );
-
+                */
+        db.update(
+                CharEntry.TABLE_NAME,
+                values,
+                "_id=\"" + rowId + "\"",
+                null );
         db.close();
 
         Intent intent = new Intent(getBaseContext(), StatsWizardActivity.class);
-        intent.putExtra(ROW_ID, newRowId);
+        intent.putExtra(ROW_ID, rowId);
+        intent.putExtra(SPECIES, ((Spinner)findViewById(R.id.speciesSpinner)).getSelectedItem().toString());
         startActivity(intent);
     }
 }
