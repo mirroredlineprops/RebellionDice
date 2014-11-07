@@ -67,6 +67,27 @@ public class CharCardsActivity extends Activity {
             }
         });
 
+        updateCards();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.char_cards, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void updateCards() {
         ListView list = (ListView)findViewById(R.id.card_list_view);
 
         list.addHeaderView(new View(this));
@@ -136,22 +157,11 @@ public class CharCardsActivity extends Activity {
         refAdapter.close();
         */
     }
-
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.char_cards, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if (hasFocus) {
+            updateCards();
         }
-        return super.onOptionsItemSelected(item);
     }
 
 }
