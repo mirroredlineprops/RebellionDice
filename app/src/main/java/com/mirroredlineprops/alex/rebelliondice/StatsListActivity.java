@@ -93,7 +93,16 @@ public class StatsListActivity extends Activity {
     private void createGroupList(List<String> results) {
         groupList = new ArrayList<String>();
         groupList.add("Character");
+        groupList.add("Attributes");
         groupList.add("Stats");
+        groupList.add("Skills");
+        groupList.add("Weapons");
+        groupList.add("Armor and Gear");
+        groupList.add("Talents");
+        groupList.add("Injuries");
+        groupList.add("Background");
+        groupList.add("Description");
+
     }
 
     private void createCollection(List<String> results) {
@@ -106,13 +115,57 @@ public class StatsListActivity extends Activity {
             charList.add("Name: " + c.getString(2));
             charList.add("Species: " + c.getString(3));
             charList.add("Career: " + c.getString(4));
-            charList.add("Specializations: " + c.getString(5) + ", " + c.getString(5) + ", " + c.getString(5));
+            charList.add("Specializations: " + c.getString(5));
             resultsCollection.put("Character", charList);
 
             List<String> statsList = new ArrayList<String>();
-            statsList.add("Brawn: " + c.getString(15));
-
+            statsList.add("Soak: " + c.getString(6));
+            statsList.add("Wounds: " + c.getString(7) + " / " + c.getString(8));
+            statsList.add("Strain: " + c.getString(9) + " / " + c.getString(10));
+            statsList.add("Ranged Defense: " + c.getString(14));
+            statsList.add("Melee Defense: " + c.getString(13));
             resultsCollection.put("Stats", statsList);
+
+            List<String> attrList = new ArrayList<String>();
+            attrList.add("Brawn: " + c.getString(15));
+            attrList.add("Agility: " + c.getString(16));
+            attrList.add("Intellect: " + c.getString(17));
+            attrList.add("Cunning: " + c.getString(18));
+            attrList.add("Willpower: " + c.getString(19));
+            attrList.add("Presence: " + c.getString(20));
+            resultsCollection.put("Attributes", attrList);
+
+            List<String> skillsList = new ArrayList<String>();
+            skillsList.add("TODO");
+            resultsCollection.put("Skills", skillsList);
+
+            List<String> talentList = new ArrayList<String>();
+            talentList.add("TODO");
+            resultsCollection.put("Talents", talentList);
+
+            List<String> backgroundList = new ArrayList<String>();
+            backgroundList.add("TODO");
+            resultsCollection.put("Background", backgroundList);
+
+            List<String> weaponList = new ArrayList<String>();
+            weaponList.add("TODO");
+            resultsCollection.put("Weapons", weaponList);
+
+            List<String> gearList = new ArrayList<String>();
+            gearList.add("TODO");
+            gearList.add("Encumbrance: " + c.getString(11) + " / " + c.getString(12));
+            gearList.add("XP: " + c.getString(21) + " / " + c.getString(22));
+            resultsCollection.put("Armor and Gear", gearList);
+
+            List<String> descList = new ArrayList<String>();
+            descList.add("TODO");
+            resultsCollection.put("Description", descList);
+
+            List<String> injList = new ArrayList<String>();
+            injList.add("TODO");
+            resultsCollection.put("Injuries", injList);
+
+
         }
         statsDb.close();
     }

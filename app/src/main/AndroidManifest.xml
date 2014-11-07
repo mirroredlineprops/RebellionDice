@@ -48,6 +48,14 @@
             android:name=".StatsWizardActivity"
             android:label="@string/title_activity_stats_wizard" >
         </activity>
+        <activity
+            android:name=".BackgroundActivity"
+            android:label="@string/title_activity_background" >
+        </activity>
+        <activity
+            android:name=".BackgroundWizardActivity"
+            android:label="@string/title_activity_background_wizard" >
+        </activity>
     </application>
 
 </manifest>

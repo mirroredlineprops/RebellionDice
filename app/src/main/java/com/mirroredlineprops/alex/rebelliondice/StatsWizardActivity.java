@@ -21,6 +21,8 @@ public class StatsWizardActivity extends Activity {
     public final static String ROW_ID = "com.mirroredlineprops.alex.rebelliondice.ROW_ID";
     public final static String SPECIES = "com.mirroredlineprops.alex.rebelliondice.SPECIES";
     private long rowId;
+    private int totalXp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,8 @@ public class StatsWizardActivity extends Activity {
             ((EditText) findViewById(R.id.strainEdit)).setText(statsCursor.getInt(9) + statsCursor.getInt(6) + "");
             ((EditText) findViewById(R.id.rangeDefEdit)).setText("0");
             ((EditText) findViewById(R.id.meleeDefEdit)).setText("0");
+            totalXp = Integer.valueOf(statsCursor.getString(10));
+            ((EditText) findViewById(R.id.xpEdit)).setText(totalXp + "");
         }
 
 
@@ -84,10 +88,16 @@ public class StatsWizardActivity extends Activity {
         values.put(CharContract.CharEntry.COLUMN_NAME_WILLPOWER, ((EditText) findViewById(R.id.willpowerEdit)).getText().toString());
         values.put(CharContract.CharEntry.COLUMN_NAME_PRESENCE, ((EditText) findViewById(R.id.presenceEdit)).getText().toString());
         values.put(CharContract.CharEntry.COLUMN_NAME_SOAK, ((EditText) findViewById(R.id.soakEdit)).getText().toString());
-        values.put(CharContract.CharEntry.COLUMN_NAME_WOUNDS, ((EditText) findViewById(R.id.woundsEdit)).getText().toString());
-        values.put(CharContract.CharEntry.COLUMN_NAME_STRAIN, ((EditText) findViewById(R.id.strainEdit)).getText().toString());
+        values.put(CharContract.CharEntry.COLUMN_NAME_WOUNDS, "0");
+        values.put(CharContract.CharEntry.COLUMN_NAME_MAX_WOUNDS, ((EditText) findViewById(R.id.woundsEdit)).getText().toString());
+        values.put(CharContract.CharEntry.COLUMN_NAME_STRAIN, "0");
+        values.put(CharContract.CharEntry.COLUMN_NAME_MAX_STRAIN, ((EditText) findViewById(R.id.strainEdit)).getText().toString());
         values.put(CharContract.CharEntry.COLUMN_NAME_MELEE_DEFENSE, ((EditText) findViewById(R.id.meleeDefEdit)).getText().toString());
         values.put(CharContract.CharEntry.COLUMN_NAME_RANGED_DEFENSE, ((EditText) findViewById(R.id.rangeDefEdit)).getText().toString());
+        values.put(CharContract.CharEntry.COLUMN_NAME_ENCUM, "0");
+        values.put(CharContract.CharEntry.COLUMN_NAME_MAX_ENCUM, Integer.valueOf(((EditText) findViewById(R.id.brawnEdit)).getText().toString()) + 5 + "");
+        values.put(CharContract.CharEntry.COLUMN_NAME_XP, ((EditText) findViewById(R.id.xpEdit)).getText().toString());
+        values.put(CharContract.CharEntry.COLUMN_NAME_TOTAL_XP, totalXp + "");
 
         db.update(
                 CharContract.CharEntry.TABLE_NAME,
